@@ -1,0 +1,73 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+1) Try https://github.com/devdattakulkarni/ModernWebApps/tree/master/Servlets/test-thread-servlet
+   - Run the Servlet
+   - From command-line, run https://github.com/devdattakulkarni/ModernWebApps/blob/master/Servlets/test-servlet.sh as follows:
+     - ./test-servlet.sh & ./test-servlet.sh & ./test-servlet.sh
+   - What output do you see from the Servlet? Looking at the Servlet code and the test-servlet.sh code, comment on
+     the correctness of the output.
+
+     result: TestingThreadServlet says hello. Counter value is:2902
+     The output is not what we expected. It should be 3000.
+
+     You can use the below function to fix the bug:
+
+     private synchronized void increment(){
+         counter++;
+     }
+
+2) Try tests from logging-example project
+
+  When logger and handler have the same level, message will be printed.
+  If the message level >= logger level, message will be logged.
+
+3) Consider your assignment 6. Suppose you have set the level of Logger and Handler
+   to WARNING. Show the output that will be generated for each of the following calls:
+   - Logger.info("Web App is starting up")
+
+     No output
+
+   - Logger.config("Web App configuration is a.b.c")
+
+     No output
+
+   - Logger.severe("Something severe has happened")
+
+     SEVERE: Something severe has happened
+
+4) Considering the Java logging architecture, what message level would you assign to
+   following situations that may happen in your program:
+   - Trace message of the program execution that should be displayed only when debugging an issue
+     INFO
+   - Exception stack trace
+     SEVERE
+   - Displaying the database credentials that would be used to connect to a database
+     CONFIG
+
+
+5) What is the difference between logging API and logging implementation?
+
+   API allows you to swap out implementation without having to change your code.
+
+6) Run https://github.com/devdattakulkarni/ModernWebApps/tree/master/Servlets/filter-order-example project
+
+   Done. Take care of the chain.
+
+7) Modify the order of filters as defined for a particular Servlet in web.xml and observe the effect
+
+   The order of filters follows the order in web.xml
+
+8) Create a logging filter that logs all HTTPHeaders received by your web application.
+
+     HttpServletRequest httpRequest = (HttpServletRequest) request;
+     Logger testLogger = Logger.getLogger("TestLogger");
+     Enumeration<String> headers = httpRequest.getHeaderNames();
+     while (headers.hasMoreElements()) {
+             String header = headers.nextElement();
+             String value = httpRequest.getHeader(header);
+         testLogger.info("Header:" + header + " Value:" + value);
+     }

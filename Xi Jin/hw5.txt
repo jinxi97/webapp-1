@@ -1,0 +1,119 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+1. Try test-load-on-startup Servlet project from class github repository
+   - Change the values of <load-on-startup> attribute in web.xml for
+     both the Servlets to understand how Servlet startup behavior is
+     affected by the specified values.
+
+     init param --> context param
+
+   - Answer following questions:
+     - What is the output of deploying the project when "load-on-startup"
+       for testingLoadOnStartup2 is set to 2 whereas the "load-on-startup"
+       for testingLoadOnStartup1 is set to 1
+
+       the number defines which servlet is going to be loaded first.
+
+        Servlet testingLoadOnStartup1 is being initialized.
+        *** Servlet Init Params ***
+        Param:Servlet_INIT_PARAM_NAME Value:Servlet_INIT_PARAM_VALUE
+        *** Servlet Init Params ***
+        *** Servlet Context Params ***
+        Param:Servlet_CONTEXT_PARAM_username Value:Servlet_CONTEXT_PARAM_root
+        Param:Servlet_CONTEXT_PARAM_password Value:Servlet_CONTEXT_PARAM_easytoguess
+        *** Servlet Context Params ***
+        Servlet testingLoadOnStartup2 is being initialized.
+        *** Servlet Init Params ***
+        *** Servlet Init Params ***
+        *** Servlet Context Params ***
+        Param:Servlet_CONTEXT_PARAM_username Value:Servlet_CONTEXT_PARAM_root
+        Param:Servlet_CONTEXT_PARAM_password Value:Servlet_CONTEXT_PARAM_easytoguess
+        *** Servlet Context Params ***
+
+     - What happens when we omit load-on-startup from both Servlet definitions
+
+     They are not loaded until you type the url pattern.
+
+     - What is the init-param attribute in web.xml?
+
+      <init-param>
+        <param-name>
+          Servlet_INIT_PARAM_NAME
+        </param-name>
+        <param-value>
+          Servlet_INIT_PARAM_VALUE
+        </param-value>
+      </init-param>
+
+     - What is the context-param attribute in web.xml?
+
+     <context-param>
+        <param-name>Servlet_CONTEXT_PARAM_password</param-name>
+        <param-value>Servlet_CONTEXT_PARAM_easytoguess</param-value>
+     </context-param>
+
+     <context-param>
+        <param-name>Servlet_CONTEXT_PARAM_username</param-name>
+        <param-value>Servlet_CONTEXT_PARAM_root</param-value>
+     </context-param>
+
+     - What is the difference between init-param and context-param attributes?
+      ???
+
+2. Try spring-email-service Servlet project
+   - Execute following queries:
+     - http://localhost:8080/spring-email-service/
+     Hello world!
+     - http://localhost:8080/spring-email-service/?action=compose
+     Invoking editor service: Hello world.
+     - http://localhost:8080/spring-email-service/calculator?values=1,4,5&operator=add
+     Result is:10
+     - http://localhost:8080/spring-email-service/calculator?values=1,4,5&operator=multiply
+     Result is:20
+
+   - Study EmailController.java and read about following annotations:
+     - @RequestMapping, @RequestHeader, @RequestParam, @ResponseBody, @Controller
+
+     Done.
+
+   - What is dependency injection? What dependency injection method is used in spring-email-service?
+
+     Separating creation of dependencies from their consumption.
+
+     Constructor injection (This was used)
+     –Constructor parameters passed in for each dependent variable
+
+     Setter injection
+     –Setter methods need to be defined for the dependent variable
+
+   - How are dependencies specified in Spring?
+
+     ---In bean configuration file:
+     <bean name="emailController" class="EmailController”>
+       <constructor-arg ref="englishEditorServiceImpl">
+       </constructor-arg>
+     </bean>
+     <bean name="englishEditorServiceImpl" class="EnglishEditorServiceImpl" />
+     ---In code:
+     public EmailController(EditorService editorService) {
+         this.englishEditorService = editorService;
+     }
+
+   - What are advantages of using an interface instead of concrete implementation when building
+     our programs?
+
+     Develop against an Interface instead of using concrete implementation classes
+     –Instead of using EnglishEditor within EmailController, declare object of Editor interface type
+     –Interface vs. implementation distinction examples
+       –Map is an interface
+       –HashMap, Hashtable, TreeMap, LinkedHashMap are implementations of the Map interface
+     How is this useful?
+       –The EmailController class is not tied to an implementation
+
+   - What is a Java Bean? How are Java beans used in dependency injection?
+
+     The objects that compose your application are called beans.

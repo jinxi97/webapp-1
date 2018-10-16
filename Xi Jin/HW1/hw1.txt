@@ -1,0 +1,128 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+
+1) Consider the url http://canvas.utexas.edu
+   Run following commands and observe the difference between their responses:
+   - curl -v -X HEAD http://canvas.utexas.edu
+   - curl -v -X HEAD http://canvas.utexas.edu -H "Pragma: no-cache" -H "Cache-Control: max-age=0, no-cache, must-revalidate"
+   Experiment with different sites and try to find more sites for which you observe the caching behavior similar to the canvas site.
+
+Here are the difference that I have found:
+
+New Lines:
+> Pragma: no-cache
+> Cache-Control: max-age=0, no-cache, must-revalidate
+
+< Set-Cookie: cache_id=a345230899cb7e6fe1c81835b77de250; expires=Sun, 09-Sep-18 22:03:15 GMT; path=/
+
+< X-BackendServer: 172.17.99.36:80
+
+Changed lines:
+< X-Cache: HIT ------- < X-Cache: BYPASS
+< Set-Cookie: balancer_id=utweb-px-z1-p01_http|W5WKT|W5WKT; path=/ ------------ < Set-Cookie: balancer_id=utweb-px-z1-p01_http|W5WKl|W5WKl; path=/
+
+
+2) Run following commands and observe their effect on the response:
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Modified-Since: Thu, 06 Sep 2018 18:30:45 GMT"
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Modified-Since: Thu, 06 Sep 2018 18:30:44 GMT"
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Modified-Since: Thu, 06 Sep 2018 18:30:43 GMT"
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-None-Match: \"8-5753816d31e27\""
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Match: \"8-5753816d31e27\""
+
+   - Reflect on how the response gets affected based on the values that you passed in for If-Modified-Since and
+     If-Match, If-None-Match headers
+
+     "If-Modified-Since": if modified, the serve will return a status code 200 and the content.
+				    else, the server will return a status code 304 without content.
+
+     "If-None-Match": if two Etag do not match, status code 200. And return the content
+				else, status code 304(Not Modified)
+
+     "If-Match": if Etag matches, status code 200. And return contents
+			 else, status code 412(Precondition Failed).
+
+   - Which of these headers are using Entity Tags and validators?
+	"If-None-Match" and "If-Match"
+
+
+3) What is the difference between Strong and Weak Entity tag validators?
+
+   Strong validator corresponds to calculating the entity tag / signature on every change of the resource
+
+   Weak validator corresponds to calculating the entity tag / signature on “major” changes to an entity
+
+4) State true/false:
+
+True??? - Entity tag validators are calculated by Proxy Servers
+
+True - Entity tag validators are calculated by Origin Servers
+
+False - Entity tag validators are calculated by User Agents
+
+
+5) Find a site that sends back "Transfer-Encoding: chunked" response header.
+
+   Calculate the size of the content by considering each chunk.
+
+
+   Tally it with the size of the content by measuring it independently (using other means such as Unix word count (wc) command)
+
+6) Interact with 5 different sites/urls of your choosing using either curl or other tools that we discussed in class.
+   Make a histogram of response headers (how many sites included each header).
+   - Which headers were sent by all sites? Which headers were unique to two or more sites?
+   - Are there sites that don't adhere to HTTP protocol (either 1.0 or 1.1)?
+
+7) Read about following headers from the RFCs:
+   - Accept-Ranges, Range, Age, max-age, no-store, Server, Via
+
+8) Try out all the programs from HTTP directory in:
+   - https://github.com/devdattakulkarni/ModernWebApps
+
+9) Read this paper (upto section 3.3):
+   - "Key Differences between HTTP/1.0 and HTTP/1.1" by Krishnamurthy, Mogul, Kristol
+      "http://www.ra.ethz.ch/cdstore/www8/data/2136/pdf/pd1.pdf
+
+   Based on the paper answer following questions:
+
+   9.1) What is the purpose of the OPTIONS method in HTTP
+
+        Allow the client to learn about the capabilities of a server without actually requesting a resource.
+
+   9.2) Explain what is meant by "semantic transparency" with respect to HTTP requests.
+
+	Return the exact same response as it would be returned by direct communication with the origin server.
+
+   9.3) Consider that a client makes a resource request and
+        the origin server sends the response with Expires header value set to
+        Thu, 6 Sep 2018 14:08:31 GMT (assume that this is one hour later than when the request was made).
+        Suppose that the proxy server is faster than origin server by 15 minutes. What
+        problem will occur when a client requests the resource:
+        - after 15 minutes
+        - after 30 minutes
+        - after 45 minutes
+        - after one hour
+        Assume that the client, server, and proxy server are using HTTP 1.0.
+        Assume that when the client makes first request proxy server does not contain the required resource in its cache.
+        Explain the reason of the problem.
+
+    9.4) Consider following sequence of events:
+         - Origin server updates a resource at  Thu, 6 Sep 2018 16:46:53:001
+         - Proxy server requests the resource at Thu, 6 Sep 2018 16:46:53:200
+         - Origin server updates the resource at Thu, 6 Sep 2018 16:46:53:500
+         - Proxy server requests the resource at Thu, 6 Sep 2018 16:46:53:700
+
+         Assuming that the origin server and the proxy server are using HTTP 1.0
+         for communication, what problem if any will occur after the above
+         sequence of events.
+         Explain the reason of the problem.
+
+    9.5) Explain the purpose of "Cache-Control" header in HTTP 1.1.
+
+
+
+    9.6) What is one advantage of using the "If-None-Match" header over "If-Modified-Since" header

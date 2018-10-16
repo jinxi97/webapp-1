@@ -1,0 +1,32 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+1) Try out following XML Parsing programs from https://github.com/devdattakulkarni/ModernWebApps/tree/master/XMLParsing
+   - DOMParser.java
+   - SAXParser.java
+   - RegexParser.java
+   - XPathParser.java
+
+2) Answer following questions based on above programs:
+   - Which parsing option will you choose if your XML document is of size 512MB
+     and main memory (RAM) on your machine is 512MB. Why?
+
+   - In SAXParser.java, what is the purpose of the "characters" method?
+
+   - In SAXParser.java, explain what is happening in the endElement method
+
+   - What kind of tree parsing logic is being used in DOMParser.java
+
+   - Study the DOM Java API and write an alternative parsing logic that
+     goes level by and prints values for all leaf (child) nodes in a XML document.
+
+   - Try XPathParser and SAXParser with cs378.xml and cs378.html
+     - List one advantage of XPathParser over SAXParser
+     - List one advantage of SAXParser over XPathParser
+
+3) Modify RegexParser.java to obtain all the "href" elements from
+   heat_output.xml and heat_irclogs.html
+

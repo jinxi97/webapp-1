@@ -1,0 +1,42 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+1) Run TestServerSocket and TestHttPClientSocket as shown in Servlets class notes (Servlets-1.pdf)
+   - Add "Date" response header by modifying TestServerSocket code
+
+2) Run hello-world Servlet example using Eclipse (either on CS Lab machines or on your own machine)
+
+   Done.
+
+3) Experiment with test-thread-servlet example (see class notes Servlets-1.pdf)
+   - What effect do you see with and without using synchronization?
+
+4) What is the difference between a Web server and a Servlet container?
+
+5) Explain why Servlet code does not contain a "main" method?
+
+   Because Servelet
+
+6) What are Servlet container's functions? Explain with example.
+
+7) State if following statements are true or false
+   - pom.xml is the file that contains definition of Servlet such as its name, loading order, etc.
+   - A deployment descriptor is a file that defines dependencies of a Servlet
+
+8) Explain in your own words what is a context root of a web application.
+
+9) Identify what is wrong/missing in following Servlet declaration.
+
+   import ...
+   public class HelloWorldServlet {
+	:
+   }
+
+10) List the methods that are defined in the Servlet Interface vs. those that are defined in the
+    HTTPServlet abstract class.
+
+
+Servlet examples: https://github.com/devdattakulkarni/ModernWebApps/tree/master/Servlets

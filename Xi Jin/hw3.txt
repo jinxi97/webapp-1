@@ -1,0 +1,40 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+1) Try out session-example, url-rewriting from  https://github.com/devdattakulkarni/ModernWebApps/tree/master/Servlets
+
+2) Read Section 8 of https://tools.ietf.org/html/rfc6265 and answer following questions:
+
+   - Confidentiality in security means that an entity (server/process) is not allowed to read
+     files/data of another entity. What is meant by the problem of weak confidentiality of Cookie mechanism
+     with respect to service ports.
+     Explain with an example.
+
+   - Suppose that foo.example.com sets a Cookie using Set-Cookie header with domain attribute foo.example.com. 
+     Suppose that bar.example.com is compromised and the attacker sets its own cookies on all the responses
+     for bar.example.com with domain attribute bar.example.com.
+     Consider following sequence of interactions:
+     - User visits foo.example.com
+     - User visits bar.example.com
+     - User visits foo.example.com
+
+     For each request, show which Cookie(s) browswer will include in the request. Will the compromised
+     domains Cookies affect user interactions with the non-compromised domain? Why?
+
+
+3) Consider that user agent and origin server are communicating over HTTP 1.0
+   in which after each request-response interaction the connection is closed.
+   For tracking multiple requests, someone comes up with a mechanism whereby server
+   will send a unique value in response body and the client sends it back
+   to the server with each request as a query parameter. Will this scheme work?
+   Compare this approach with the approach that you used in assignment 1. Which approach is better?
+
+4) Read Section 7.1 of https://tools.ietf.org/html/rfc6265 and answer following question
+   in your own words:
+
+   - What are third-party cookies? How do they work?
+
+   - Why are third-party cookies bad from the perspective of online privacy?

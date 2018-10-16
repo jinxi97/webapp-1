@@ -1,0 +1,63 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+-----------
+
+1. servlet-unit-test
+   - Run unit tests defined in TestHelloServlet.java and TestCalculatorServiceImpl.java
+     through Eclipse/IntelliJ
+
+     Done.
+
+   - Test "testdoGet4" in TestHelloServlet is currently failing.
+     Figure out why and then fix appropriate code in HelloServlet so that the test passes.
+
+     doGet4() does not handle the condition when parsedURLs is null.
+
+   - Several tests in TestCalculatorServiceImpl are currently failing.
+     Figure out why and then fix CalculatorServiceImpl to make these tests pass.
+
+     Need to break after calculation.
+
+   - Add tests for following scenarios to TestCalculatorServiceImpl:
+     - Values=[1,2,3,4], Operator=add
+     - Values=[1,2,3,4], Operator=subtract
+     - Values=[1,2,3,4], Operator=multiply
+     - Values=[1,2,3,4], Operator=divide
+     - Values=[1], Operator=subtract
+     - Values=[1], Operator=multiply
+     - Values=[1], Operator=divide
+     - Values=[0,0], Operator=add
+     - Values=[0,0], Operator=subtract
+     - Values=[0,0], Operator=multiply
+     - Values=[0,1], Operator=divide
+     - Values=[0,1], Operator=add
+     - Values=[1,0], Operator=add
+     - Values=[1,0], Operator=subtract
+     - Values=[0,1], Operator=subtract
+     - Values=[1,0], Operator=multiply
+     - Values=[0,1], Operator=multiply
+
+     Done.
+
+2. mockito-example
+   - Run unit tests defined in TestEmailController.java and TestEnglishEditorServiceImpl.java through
+     Eclipse/IntelliJ
+
+     Done.
+
+   - Test "testGetGreetingNullAction" in TestEmailController from mockito-example is currently failing.
+      Figure out why and then modify appropriate code in EmailController so that the test passes.
+
+     If statement need another layer of parenthesis.
+
+   - Test "testWithGhostObject" in TestEmailController from mockito-example is failing.
+     Figure out what is causing the test to fail. What technique can you use to make this test pass?
+
+     If you create the service inside the method, there is no way to mock it. It is better
+     to use the class variable.
+
+   - Write one or more unit tests similar to "testReadDataFromEavesdrop" test to test your assignment2 logic.
+
+     Done.
