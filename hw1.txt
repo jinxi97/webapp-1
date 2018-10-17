@@ -1,0 +1,140 @@
+Fall 2018, Modern Web Apps
+---------------------------
+
+No due date
+------------
+
+
+1) Consider the url http://canvas.utexas.edu
+   Run following commands and observe the difference between their responses:
+   - curl -v -X HEAD http://canvas.utexas.edu
+   - curl -v -X HEAD http://canvas.utexas.edu -H "Pragma: no-cache" -H "Cache-Control: max-age=0, no-cache, must-revalidate"
+   Experiment with different sites and try to find more sites for which you observe the caching behavior similar to the canvas site.
+
+2) Run following commands and observe their effect on the response:
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Modified-Since: Thu, 06 Sep 2018 18:30:45 GMT"
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Modified-Since: Thu, 06 Sep 2018 18:30:44 GMT"
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Modified-Since: Thu, 06 Sep 2018 18:30:43 GMT"
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-None-Match: \"8-5753816d31e27\""
+   - curl -v http://www.cs.utexas.edu/~devdatta/test-file.txt -H "If-Match: \"8-5753816d31e27\""
+
+   - Reflect on how the response gets affected based on the values that you passed in for If-Modified-Since and
+     If-Match, If-None-Match headers
+
+     If-Modified-Since past:
+        < HTTP/1.1 304 Not Modified
+        < Date: Tue, 16 Oct 2018 06:10:40 GMT
+        < Server: Apache/2.4.18 (Ubuntu)
+        < ETag: "12-5753bbdb98c05"
+
+        > If-Match: "8-5753816d31e27"
+        >
+        < HTTP/1.1 412 Precondition Failed
+        < Date: Tue, 16 Oct 2018 06:11:25 GMT
+        < Server: Apache/2.4.18 (Ubuntu)
+        < Last-Modified: Thu, 06 Sep 2018 22:52:10 GMT
+        < ETag: "12-5753bbdb98c05"
+
+        > If-None-Match: "8-5753816d31e27"
+        >
+        < HTTP/1.1 200 OK
+        < Date: Tue, 16 Oct 2018 06:11:12 GMT
+        < Server: Apache/2.4.18 (Ubuntu)
+        < Last-Modified: Thu, 06 Sep 2018 22:52:10 GMT
+        < ETag: "12-5753bbdb98c05"
+
+
+   - Which of these headers are using Entity Tags and validators?
+
+    If-Match, If-None-Match
+
+3) What is the difference between Strong and Weak Entity tag validators?
+
+4) State true/false:
+   F - Entity tag validators are calculated by Proxy Servers
+   T - Entity tag validators are calculated by Origin Servers
+   F - Entity tag validators are calculated by User Agents
+
+5) Find a site that sends back "Transfer-Encoding: chunked" response header.
+   Calculate the size of the content by considering each chunk.
+   Tally it with the size of the content by measuring it independently (using other means such as Unix word count (wc) command)
+
+6) Interact with 5 different sites/urls of your choosing using either curl or other tools that we discussed in class.
+   Make a histogram of response headers (how many sites included each header).
+   - Which headers were sent by all sites? Which headers were unique to two or more sites?
+   - Are there sites that don't adhere to HTTP protocol (either 1.0 or 1.1)?
+
+7) Read about following headers from the RFCs:
+   - Accept-Ranges, Range, Age, max-age, no-store, Server, Via
+
+8) Try out all the programs from HTTP directory in:
+   - https://github.com/devdattakulkarni/ModernWebApps
+
+9) Read this paper (upto section 3.3):
+   - "Key Differences between HTTP/1.0 and HTTP/1.1" by Krishnamurthy, Mogul, Kristol
+      "http://www.ra.ethz.ch/cdstore/www8/data/2136/pdf/pd1.pdf
+
+   Based on the paper answer following questions:
+
+   9.1) What is the purpose of the OPTIONS method in HTTP
+
+   The OPTIONS method represents a request for information about the communication
+   options available on the request/response chain identified by the Request-URI.
+   This method allows the client to determine the options and/or requirements associated
+   with a resource, or the capabilities of a server, without implying a resource action
+   or initiating a resource retrieval.
+
+   9.2) Explain what is meant by "semantic transparency" with respect to HTTP requests.
+
+    A cache behaves in a "semantically transparent" manner, with
+    respect to a particular response, when its use affects neither the
+    requesting client nor the origin server, except to improve
+    performance. When a cache is semantically transparent, the client
+    receives exactly the same response (except for hop-by-hop headers)
+    that it would have received had its request been handled directly
+    by the origin server.
+
+    The Cache-Control header allows a client or server to transmit a variety of directives in either
+    requests or responses. These directives typically override the default caching algorithms. As a general
+    rule, if there is any apparent conflict between header values, the most restrictive interpretation
+    is applied (that is, the one that is most likely to preserve semantic transparency).
+
+   9.3) Consider that a client makes a resource request and
+        the origin server sends the response with Expires header value set to
+        Thu, 6 Sep 2018 14:08:31 GMT (assume that this is one hour later than when the request was made).
+        Suppose that the proxy server is faster than origin server by 15 minutes. What
+        problem will occur when a client requests the resource:
+        - after 15 minutes
+        - after 30 minutes
+        - after 45 minutes
+        - after one hour
+        Assume that the client, server, and proxy server are using HTTP 1.0.
+        Assume that when the client makes first request proxy server does not contain the required resource in its cache.
+        Explain the reason of the problem.
+
+    9.4) Consider following sequence of events:
+         - Origin server updates a resource at  Thu, 6 Sep 2018 16:46:53:001
+         - Proxy server requests the resource at Thu, 6 Sep 2018 16:46:53:200
+         - Origin server updates the resource at Thu, 6 Sep 2018 16:46:53:500
+         - Proxy server requests the resource at Thu, 6 Sep 2018 16:46:53:700
+
+         Assuming that the origin server and the proxy server are using HTTP 1.0
+         for communication, what problem if any will occur after the above
+         sequence of events.
+         Explain the reason of the problem.
+
+    9.5) Explain the purpose of "Cache-Control" header in HTTP 1.1.
+
+    The Cache-Control general-header field is used to specify directives that MUST be obeyed
+    by all caching mechanisms along the request/response chain. The directives specify behavior
+    intended to prevent caches from adversely interfering with the request or response. These
+    directives typically override the default caching algorithms. Cache directives are unidirectional
+    in that the presence of a directive in a request does not imply that the same directive is to
+    be given in the response.
+
+    9.6) What is one advantage of using the "If-None-Match" header over "If-Modified-Since" header
+
+    Timestamp value used in Last-Modified/If-Modified-Since has limited precision - one second and that is
+    simply not enough for fast changing content like, for instance, Web-chat application where more than
+    one message could be posted at any given second. ETag/If-None-Match can help to solve that problem.
